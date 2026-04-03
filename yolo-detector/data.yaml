@@ -1,0 +1,5 @@
+train: data/train/images
+val: data/val/images
+
+nc: 2
+names: ['pylon', 'powerline']
