@@ -109,8 +109,29 @@ python multimodal_fusion.py
 ### 4. Object Detection
 ```bash
 # Using the trained YOLO model for detection
-# Command will be added
+cd yolo-detector
+# Ensure the following directory structure exists in yolo-detector directory
+# data/
+# ├── val/
+# │   └── images/  # Place fused images to detect
+# └── output/       # Detection results will be saved here
+
+python inference.py
+# Detection results will be saved in data/output/ directory
 ```
+
+#### Detection Process
+1. The script automatically finds the latest trained model in `runs/detect/` directory
+2. It processes all images in `data/val/images/` directory
+3. Applies NMS (Non-Maximum Suppression) to filter overlapping detection boxes
+4. Saves annotated results in `data/output/` directory with bounding boxes for detected power towers and lines
+
+#### Detection Results
+The detection results include:
+- Bounding boxes for power towers (labeled as 'pylon')
+- Bounding boxes for powerlines (labeled as 'powerline')
+- Confidence scores for each detection
+- Annotated images saved in the output directory
 
 #### Detection Results Examples
 The following images show detection results on fused images, demonstrating the system's ability to accurately identify power towers and powerlines:
@@ -128,12 +149,17 @@ The following images show detection results on fused images, demonstrating the s
 The detection results demonstrate high accuracy in identifying both power towers (shown with bounding boxes) and powerlines, even in challenging scenarios with complex backgrounds and varying lighting conditions.
 
 ## Dataset
-The project uses the SRSPTD dataset from [LSKF-YOLO](https://github.com/ZX815/LSKF-YOLO), which is a subset of the Electric Transmission and Distribution Infrastructure Imagery Dataset. The dataset includes:
+The project builds upon the SRSPTD dataset from [LSKF-YOLO](https://github.com/ZX815/LSKF-YOLO), which provides the base optical images and tower annotations. The dataset has been significantly extended and modified for this project:
 
-- Optical images of power towers and lines
-- YOLO format annotations for towers and powerlines
-- Simulated SAR images
-- Fused images (optical + SAR)
+- **Base components from LSKF-YOLO**:
+  - Optical images of power towers and lines
+  - Initial YOLO format annotations for towers
+
+- **Enhancements and modifications by this project**:
+  - **Simulated SAR images**: Generated from optical images using speckle noise simulation
+  - **Denoised SAR images**: Processed using SAR-BM3D for improved quality
+  - **Fused images (optical + SAR)**: Created through multimodal fusion network
+  - **Modified annotations**: Updated tower annotations and added powerline annotations
 
 ## Model Weights
 The `models/` directory contains pre-trained model weights:
@@ -144,7 +170,7 @@ The `models/` directory contains pre-trained model weights:
 **Note**: Model weights are large files and should be managed with Git LFS when uploading to GitHub.
 
 ## Citation
-If you use this project or the dataset, please cite:
+This project uses the SRSPTD dataset from LSKF-YOLO, which requires citing the following paper:
 
 C. Shi, X. Zheng, Z. Zhao, K. Zhang, Z. Su and Q. Lu, "LSKF-YOLO: Large Selective Kernel Feature Fusion Network for Power Tower Detection in High-Resolution Satellite Remote Sensing Images," in IEEE Transactions on Geoscience and Remote Sensing, vol. 62, pp. 1-16, 2024, Art no. 5620116, doi: 10.1109/TGRS.2024.3389056.
 
