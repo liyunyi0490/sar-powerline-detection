@@ -167,8 +167,6 @@ The `models/` directory contains pre-trained model weights:
 - `fusion_model_best.pt`: Multimodal fusion model for combining optical and SAR features
 - `yolo_detect_best.pt`: YOLO detection model for powerline and tower detection
 
-**Note**: Model weights are large files and should be managed with Git LFS when uploading to GitHub.
-
 ## Citation
 This project uses the SRSPTD dataset from LSKF-YOLO, which requires citing the following paper:
 
